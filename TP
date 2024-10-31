@@ -1,0 +1,165 @@
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print(linea, end="")
+
+alumnos.close()
+
+#guarda 3 datos: apellido, nombre, edad
+#Se agrega ,end="" para eliminar el espacio entre cada linea
+#-----------
+
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print(linea[0])
+
+alumnos.close()
+
+
+# [] imprime solo el primer caracter
+#-----------
+# el apellido tiene un largo de 25 caracteres
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print(linea[0:25])
+
+alumnos.close()
+
+# cuando ponemos un rango al tope máximo, no llega a ese número. ej [0:25] llega a 24.
+# muestra hasta el apellido
+
+--------
+#el nombre tiene un largo de 45 caracteres (comienza en el caracter 25)
+
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print(linea[25:70])
+
+alumnos.close()
+
+# [25:] toma hasta el final
+
+--------------
+
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print(linea[70:72])
+
+alumnos.close()
+
+#salen las edades
+
+--------------
+
+alumnos = open("alumnos.txt")
+for linea in alumnos:
+    print("Apellido: ", linea[:25]
+    print(f"Nombre: {linea[25:70]})
+    print(f"Edad: {linea[70:72]})
+
+alumnos.close()
+
+#toman rangos de porción del string que devuelve
+
+-------------------
+
+alumnos = open("alumnos.txt")
+cantidad = 0
+
+for linea in alumnos:
+    print("Apellido: ", linea[:25]
+    print(f"Nombre: {linea[25:70]})
+    print(f"Edad: {linea[70:72]})
+    print("----------")
+    cantidad += 1
+    suma += int(linea[70:72])
+
+promedio = suma/cantidad
+print(f"El promedio de edad es {promedio:.2f})
+alumnos.close()
+
+#int(linea[70:72]) convierte en entero el string
+-----------------
+
+try:
+     alumnos = open("alumns.txt")
+     cantidad = 0
+except:
+     print("El archivo no se puede abrir")
+     quit()
+
+cantidad = 0
+suma = 0
+
+for linea in alumnos:
+    print("Apellido: ", linea[:25]
+    print(f"Nombre: {linea[25:70]})
+    print(f"Edad: {linea[70:72]})
+    print("----------")
+    cantidad += 1
+    suma += int(linea[70:72])
+
+promedio = suma/cantidad
+print(f"El promedio de edad es {promedio:.2f})
+alumnos.close()
+-----------------
+
+while True:
+     archivo = input("Ingrese el nombre del archivo: ")
+     try:
+          alumnos = open("alumns.txt")
+     except:
+          print("El archivo no se puede abrir")
+          continue 
+      break
+
+cantidad = 0
+suma = 0
+
+for linea in alumnos:
+    print("Apellido: ", linea[:25]
+    print(f"Nombre: {linea[25:70]})
+    print(f"Edad: {linea[70:72]})
+    print("----------")
+    cantidad += 1
+    suma += int(linea[70:72])
+
+promedio = suma/cantidad
+print(f"El promedio de edad es {promedio:.2f})
+alumnos.close()
+
+#se debe ingresar la ruta del archivo correcta para que se lean los datos.
+#se abre el archivo, se procesa linea por linea, se cierra (con close)
+----------------------
+
+while True:
+     archivo = input("Ingrese el nombre del archivo: ")
+     try:
+          alumnos = open("alumns.txt")
+     except:
+          print("El archivo no se puede abrir")
+          continue 
+      break
+
+cantidad = 0
+suma = 0
+mayor = 0
+menor = 9999
+
+for linea in alumnos:
+    print("Apellido: ", linea[:25]
+    print(f"Nombre: {linea[25:70]})
+    print(f"Edad: {linea[70:72]})
+    print("----------")
+    cantidad += 1
+    suma += edad
+    if edad < menor:
+         menor = edad
+    if edad = mayor #revisar
+       mayor = edad
+
+promedio = suma/cantidad
+print(f"El promedio de edad es {promedio:.2f})
+print(f"Mayor edad: {mayor})
+print(f"Menor edad: {menor})
+alumnos.close()
+
