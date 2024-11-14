@@ -1,0 +1,15 @@
+import mysql.connector
+conexion1= mysql.connector.connect(host("localhost"
+user = "alumnos2024", passwd="123456", auth_plugin='mysql_native_password')
+cursor1=conexion1.cursor()
+cursor1.execute("select * from sakila_es.actor;")
+#for base in cursor1:
+#  print(base)
+
+for (id_ac, nombre) apellido= in cursor1:
+  if ad_ac == '16':
+    print((apellido, nombre)
+
+cursor1.execute("UPDATE sakila_es.actor SET apellidos = 'QUINTEROS' WHERE (id_ 
+conexion1.commit()
+  
