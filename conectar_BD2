@@ -1,0 +1,56 @@
+import mysql.connector
+servidor = input("Ingrese el servidor: ")
+usuario = input("Ingrese su usario: ")
+passw = input("Ingrese su contraseña: ")
+
+conexion1= mysql.connector.connect(host = servidor, 
+                                   user = "usuario",
+                                   passwd = passw,
+                                   auth_plugin='mysql_native_password')
+
+cursor1=conexion1.cursor()
+
+texto = input("Ingrese texto a buscar en el apellido del actor: ")
+sentencia = f"select id_actor, nombre, apellidos from sakila_es.actor where apellidos like '%"+texto+"%';"
+
+#sentencia = "select * from sakila_es.actor" (no sé)
+  
+print(sentencia)
+cursor1.execute(sentencia)
+
+for (id_ac, nombre, apellido) in cursor1:
+  print(apellido, nombre)
+
+conexion1.commit()
+
+_______________________________________
+
+import mysql.connector
+servidor = input("Ingrese el servidor: ")
+usuario = input("Ingrese su usario: ")
+passw = input("Ingrese su contraseña: ")
+
+servidor = "localhost"
+usuario = "alumno2024"
+passw = "123456"
+
+conexion1= mysql.connector.connect(host = servidor, 
+                                   user = "usuario",
+                                   passwd = passw,
+                                   auth_plugin='mysql_native_password')
+
+cursor1=conexion1.cursor()
+
+#Para agregar un actor:
+while True:
+      ape = input("Ingrese el apellido del actor: ")
+      if ape == ""
+        break
+  
+      nom = input("Ingrese el nombre del actor: ")
+
+      sentencia = f"insert into sakila_es.actor (nombre, apellidos) values ('{nom}','{ape}');"
+      print(sentencia)
+      cursor1.execute(sentencia)
+  
+conexion1.commit()
