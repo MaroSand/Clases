@@ -8,7 +8,7 @@ cursor1.execute("select * from sakila_es.actor;")
 
 for (id_ac, nombre, apellido) = in cursor1:
   if ad_ac == '16':
-    print((apellido, nombre)
+    print(apellido, nombre)
 
 cursor1.execute("UPDATE sakila_es.actor SET apellidos = 'QUINTEROS' WHERE (id_ 
 conexion1.commit()
