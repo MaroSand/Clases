@@ -1,0 +1,122 @@
+registro = open("registro_temperatura365d_smn.txt", "r")
+registro.seek(0)
+registros = []
+
+for linea in registro:
+    fecha = linea[:8]
+    try:
+        temp_max_str = ""
+        for i in linea[9:14]:
+            if i != " ":
+                temp_max_str += i
+        temp_min_str = ""
+        for i in linea[15:20]:
+            if i != " ":
+                temp_min_str += i
+
+        temp_max = float(temp_max_str)
+        temp_min = float(temp_min_str)
+        
+        base = linea[21:]
+        if base[-1] == "\n":
+            base = base[:-1]
+        registros.append({"fecha": fecha, "temp_max": temp_max, "temp_min": temp_min, "base": base})
+    except ValueError:
+        continue
+
+
+def registro_fecha(fecha, registros):
+    Tmax = []
+    Tmin = []
+    
+    for registro in registros:
+        if fecha == registro["fecha"]:
+            Tmax.append(registro["temp_max"])
+            Tmin.append(registro["temp_min"])
+            print(f"Fecha: {registro['fecha']} - Temp. máxima: {registro['temp_max']}° C - Temp. mínima: {registro['temp_min']}° C - Base: {registro['base']}")
+    
+    if Tmax and Tmin:
+        total_max = 0
+        total_min = 0
+        for tmax in Tmax:
+            total_max += tmax
+        for tmin in Tmin:
+            total_min += tmin
+
+        promedio_max = total_max / len(Tmax)
+        promedio_min = total_min / len(Tmin)
+
+        print(f"Promedio de temperatura máxima: {promedio_max:.2f}° C")
+        print(f"Promedio de temperatura mínima: {promedio_min:.2f}° C")
+    else:
+        print("La fecha ingresada no existe en el registro.")
+
+def mayor_amplitud_termica(registros):
+    mayor_amplitud = 0
+    registro_mayor = 0
+    
+    for registro in registros:
+        amplitud = registro["temp_max"] - registro["temp_min"]
+        if amplitud > mayor_amplitud:
+            mayor_amplitud = amplitud
+            registro_mayor = registro
+    
+    if registro_mayor:
+        print("Registro con la mayor amplitud térmica:")
+        print(f"Fecha: {registro_mayor['fecha']}, Lugar: {registro_mayor['base']}")
+        print(f"Temperatura máxima: {registro_mayor['temp_max']}° C - Temperatura mínima: {registro_mayor['temp_min']}° C")
+        print(f"Amplitud térmica: {mayor_amplitud:.1f}° C")
+
+
+def registro_base(nombre_base, registros):
+    registros_base = [registro for registro in registros if nombre_base.lower() in registro["base"].lower()]
+    
+    if registros_base:
+        base = registros_base[0]["base"]
+        print(f"Registros para la base {base}")
+        
+        for registro in registros_base:
+            print(f"Fecha: {registro['fecha']} - Temp. máxima: {registro['temp_max']}° C - Temp. mínima: {registro['temp_min']}° C")
+
+        dia_caluroso = registros_base[0]
+        for registro in registros_base:
+            if registro['temp_max'] > dia_caluroso['temp_max']:
+                dia_caluroso = registro
+        print(f"\nDía más caluroso en '{base}':")
+        print(f"Fecha: {dia_caluroso['fecha']} - Temp. máxima: {dia_caluroso['temp_max']}° C")
+    else:
+        print(f"'{nombre_base}' no coincide con ninguna base del registro.")
+
+
+while True:
+    print("""
+    MENÚ DE OPCIONES
+    ___________________
+    1. Mostrar registro de temperaturas de un día en específico / Promedio de temperaturas.
+    2. Mayor amplitud térmica
+    3. Registro de base / Día más caluroso
+    0. Salir
+    """)
+    
+    opc = int(input("Ingrese la opción que desea consultar: "))
+    
+    if opc == 0:
+        print("Hasta luego")
+        break
+    elif opc == 1:
+        while True:
+            fecha = input("Ingrese fecha (formato DDMMAAAA): ")
+            if len(fecha) == 8:
+                registro_fecha(fecha, registros)
+                break
+            else:
+                print("Fecha ingresada incorrectamente. Intente nuevamente.")
+    elif opc == 2:
+        mayor_amplitud_termica(registros)
+    elif opc == 3:
+        nombre_base = input("Ingrese el nombre de la base: ")
+        registro_base(nombre_base, registros)
+    else:
+        print("Opción no válida. Intente de nuevo.")
+
+registro.close()
