@@ -1,0 +1,52 @@
+F1 = open("F1_2024.txt", "r")
+
+
+def puntos_pilotos():
+    F1.seek(0)
+
+    puntos_posicion = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+    
+    posicion = 0 #Contador de la posicion
+    cantidad_puestos = 10  #Para saber que la lista tiene 10 posiciones
+
+    #Diccionario para acumular puntos por piloto
+    acumulador_puntos = {}
+
+    for linea in F1:
+        piloto = linea[0:12].split()[0]  # Tomamos el primer "trozo" de la cadena sin espacios
+        posicion = int(linea[53:]) #Posicion del piloto
+        
+        # Determinamos los puntos según la posición (1° a 10°).
+        if 1 <= posicion <= 10:
+            puntos = puntos_posicion[posicion - 1] # Obtenemos puntos según el puesto.
+        else:
+            puntos = 0 #sin puntos para puestos fuera del top 10
+
+         # Comprobamos manualmente si el piloto ya está en el diccionario.
+        if piloto in acumulador_puntos:
+            acumulador_puntos[piloto] += puntos
+        else:
+            acumulador_puntos[piloto] = puntos
+
+    for piloto in acumulador_puntos: # Iteramos sobre las claves del diccionario.
+            total_puntos = acumulador_puntos[piloto] #accede al valor correspondiente             
+            print(f"Piloto: {piloto} - Puntos: {total_puntos}")
+
+
+while True:
+    print("""MENU DE OPCIONES
+----------------
+1. Listado con el total de puntos de cada piloto, ordenado de mayor a menor puntaje.
+2. Listado de puntos de cada equipo, ordenado de mayor a menor puntaje.
+3. Promedio de puntos de cada piloto
+4. Mejor posición obtenida por cada piloto en orden alfabético.
+0. Salir
+""")
+    opc = int(input("Ingrese la opción: "))
+    if opc == 0:
+        print("Hasta luego.")
+        break
+    elif opc == 1:
+        puntos_pilotos()
+
+F1.close()
