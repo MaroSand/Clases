@@ -7,7 +7,6 @@ def puntos_pilotos():
     puntos_posicion = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
     
     posicion = 0 #Contador de la posicion
-    cantidad_puestos = 10  #Para saber que la lista tiene 10 posiciones
 
     #Diccionario para acumular puntos por piloto
     acumulador_puntos = {}
