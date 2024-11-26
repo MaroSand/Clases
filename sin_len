@@ -1,0 +1,92 @@
+f1 = open("F1_2024.txt", "r")
+
+
+def calcular_puntos_piloto():
+    puntos = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]  # Puntos para las posiciones 1 a 10
+    
+    # Diccionario para acumular puntos por piloto
+    puntos_pilotos = {}
+
+    # Variable para saltar la primera línea
+    primera_linea = True
+
+    for linea in f1:
+        if primera_linea:  # Ignorar la primera línea
+            primera_linea = False
+            continue
+
+        partes = linea.split()  # Dividir la línea en partes
+        piloto = partes[0]  # Suponiendo que el nombre del piloto es la primera parte
+        posiciones = partes[2:]  # Las posiciones empiezan en la tercera columna
+
+        # Calcular puntos del piloto
+        suma_total = 0
+        for pos in posiciones:
+            numero = 0
+            for caracter in pos:  # Convertir posición manualmente
+                if "0" <= caracter <= "9":
+                    numero = numero * 10 + int(caracter)
+            if 1 <= numero <= 10:  # Verificar que está entre 1 y 10
+                suma_total += puntos[numero - 1]  # Sumar puntos correspondientes
+
+        # Agregar o actualizar puntos en el diccionario
+        if piloto in puntos_pilotos:
+            puntos_pilotos[piloto] += suma_total
+        else:
+            puntos_pilotos[piloto] = suma_total
+
+    # Convertir el diccionario en una lista de tuplas (puntos, piloto)
+    lista_pilotos = []
+    for piloto in puntos_pilotos:
+        lista_pilotos.append((puntos_pilotos[piloto], piloto))
+
+    # Ordenar manualmente sin usar len()
+    i = 0
+    while True:  # Contamos el tamaño de la lista manualmente
+        try:
+            _ = lista_pilotos[i]
+            i += 1
+        except IndexError:
+            break
+
+    tamano_lista = i  # Longitud de la lista calculada manualmente
+
+    # Ordenar manualmente con burbuja
+    for i in range(tamano_lista):
+        for j in range(tamano_lista - 1 - i):
+            if lista_pilotos[j][0] < lista_pilotos[j + 1][0]:  # Comparar puntos
+                # Intercambiar elementos
+                aux = lista_pilotos[j]
+                lista_pilotos[j] = lista_pilotos[j + 1]
+                lista_pilotos[j + 1] = aux
+
+    # Imprimir resultados
+    print("\nListado de pilotos con sus puntos ordenados de mayor a menor:")
+    for puntos, piloto in lista_pilotos:
+        print(f"{piloto}: {puntos} puntos")
+
+
+while True:
+    print("""MENU
+        1. Listado con el total de puntos de cada piloto, ordenado de mayor a menor puntaje.
+        2. Listado de puntos de cada equipo, ordenado de mayor a menor puntaje.
+        3. Promedio de puntos de cada piloto
+        4. Mejor posición obtenida por cada piloto en orden alfabético.
+        0. Salir
+""")
+    op = int(input("Ingrese la opción: "))
+    if op == 0:
+        break
+    elif op == 1:
+        f1.seek(0)  # Reiniciar la posición del archivo
+        calcular_puntos_piloto()
+    elif op == 2:
+        pass
+    elif op == 3:
+        pass
+    elif op == 4:
+        pass
+    else:
+        print("Opción no válida")
+
+f1.close()
