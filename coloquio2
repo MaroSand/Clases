@@ -1,0 +1,198 @@
+f1 = open("F1_2024.txt", "r")
+
+
+def calcular_puntos_piloto():
+    puntos = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]  # Puntos para las posiciones 1 a 10
+    puntos_pilotos = {}
+    primera_linea = True
+
+    for linea in f1:
+        if primera_linea:  # Ignorar la primera línea
+            primera_linea = False
+            continue
+
+        partes = linea.split()
+        piloto = partes[0]
+        posiciones = partes[2:]
+
+        suma_total = 0
+        for pos in posiciones:
+            numero = 0
+            for caracter in pos:
+                if "0" <= caracter <= "9":
+                    numero = numero * 10 + int(caracter)
+            if 1 <= numero <= 10:
+                suma_total += puntos[numero - 1]
+
+        if piloto in puntos_pilotos:
+            puntos_pilotos[piloto] += suma_total
+        else:
+            puntos_pilotos[piloto] = suma_total
+
+    lista_pilotos = []
+    for piloto in puntos_pilotos:
+        lista_pilotos.append((puntos_pilotos[piloto], piloto))
+
+    tamano_lista = 0
+    for _ in lista_pilotos:
+        tamano_lista += 1
+
+    for _ in range(tamano_lista):
+        for j in range(tamano_lista - 1):
+            if lista_pilotos[j][0] < lista_pilotos[j + 1][0]:
+                lista_pilotos[j], lista_pilotos[j + 1] = lista_pilotos[j + 1], lista_pilotos[j]
+
+    print("\nListado de pilotos con sus puntos ordenados de mayor a menor:")
+    for puntos, piloto in lista_pilotos:
+        print(f"{piloto}: {puntos} puntos")
+
+
+def calcular_puntos_equipo():
+    puntos = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+    puntos_equipos = {}
+    primera_linea = True
+
+    for linea in f1:
+        if primera_linea:
+            primera_linea = False
+            continue
+
+        partes = linea.split()
+        equipo = partes[1]
+        posiciones = partes[2:]
+
+        suma_total = 0
+        for pos in posiciones:
+            numero = 0
+            for caracter in pos:
+                if "0" <= caracter <= "9":
+                    numero = numero * 10 + int(caracter)
+            if 1 <= numero <= 10:
+                suma_total += puntos[numero - 1]
+
+        if equipo in puntos_equipos:
+            puntos_equipos[equipo] += suma_total
+        else:
+            puntos_equipos[equipo] = suma_total
+
+    lista_equipos = []
+    for equipo in puntos_equipos:
+        lista_equipos.append((puntos_equipos[equipo], equipo))
+
+    tamano_lista = 0
+    for _ in lista_equipos:
+        tamano_lista += 1
+
+    for _ in range(tamano_lista):
+        for j in range(tamano_lista - 1):
+            if lista_equipos[j][0] < lista_equipos[j + 1][0]:
+                lista_equipos[j], lista_equipos[j + 1] = lista_equipos[j + 1], lista_equipos[j]
+
+    print("\nListado de equipos con sus puntos ordenados de mayor a menor:")
+    for puntos, equipo in lista_equipos:
+        print(f"{equipo}: {puntos} puntos")
+
+
+def calcular_promedio_piloto():
+    puntos = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+    suma_puntos = {}
+    cantidad_carreras = {}
+    primera_linea = True
+
+    for linea in f1:
+        if primera_linea:
+            primera_linea = False
+            continue
+
+        partes = linea.split()
+        piloto = partes[0]
+        posiciones = partes[2:]
+
+        for pos in posiciones:
+            numero = 0
+            for caracter in pos:
+                if "0" <= caracter <= "9":
+                    numero = numero * 10 + int(caracter)
+            if 1 <= numero <= 10:
+                if piloto not in suma_puntos:
+                    suma_puntos[piloto] = 0
+                    cantidad_carreras[piloto] = 0
+                suma_puntos[piloto] += puntos[numero - 1]
+            if piloto in cantidad_carreras:
+                cantidad_carreras[piloto] += 1
+
+    print("\nPromedio de puntos por piloto:")
+    for piloto in suma_puntos:
+        promedio = suma_puntos[piloto] // cantidad_carreras[piloto]
+        print(f"{piloto}: {promedio} puntos")
+
+
+def calcular_mejor_posicion():
+    mejor_posiciones = {}
+    primera_linea = True
+
+    for linea in f1:
+        if primera_linea:
+            primera_linea = False
+            continue
+
+        partes = linea.split()
+        piloto = partes[0]
+        posiciones = partes[2:]
+
+        for pos in posiciones:
+            numero = 0
+            for caracter in pos:
+                if "0" <= caracter <= "9":
+                    numero = numero * 10 + int(caracter)
+            if piloto not in mejor_posiciones:
+                mejor_posiciones[piloto] = numero
+            elif numero < mejor_posiciones[piloto]:
+                mejor_posiciones[piloto] = numero
+
+    lista_posiciones = []
+    for piloto in mejor_posiciones:
+        lista_posiciones.append((piloto, mejor_posiciones[piloto]))
+
+    tamano_lista = 0
+    for _ in lista_posiciones:
+        tamano_lista += 1
+
+    for _ in range(tamano_lista):
+        for j in range(tamano_lista - 1):
+            if lista_posiciones[j][0] > lista_posiciones[j + 1][0]:
+                lista_posiciones[j], lista_posiciones[j + 1] = lista_posiciones[j + 1], lista_posiciones[j]
+
+    print("\nMejor posición obtenida por cada piloto (orden alfabético):")
+    for piloto, mejor_pos in lista_posiciones:
+        print(f"{piloto}: {mejor_pos}º lugar")
+
+
+# Menú Principal
+while True:
+    print("""MENU
+        1. Listado con el total de puntos de cada piloto, ordenado de mayor a menor puntaje.
+        2. Listado de puntos de cada equipo, ordenado de mayor a menor puntaje.
+        3. Promedio de puntos de cada piloto.
+        4. Mejor posición obtenida por cada piloto en orden alfabético.
+        0. Salir
+""")
+    op = int(input("Ingrese la opción: "))
+    if op == 0:
+        break
+    elif op == 1:
+        f1.seek(0)
+        calcular_puntos_piloto()
+    elif op == 2:
+        f1.seek(0)
+        calcular_puntos_equipo()
+    elif op == 3:
+        f1.seek(0)
+        calcular_promedio_piloto()
+    elif op == 4:
+        f1.seek(0)
+        calcular_mejor_posicion()
+    else:
+        print("Opción no válida")
+
+f1.close()
