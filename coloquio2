@@ -145,11 +145,13 @@ def calcular_mejor_posicion():
             for caracter in pos:
                 if "0" <= caracter <= "9":
                     numero = numero * 10 + int(caracter)
-            if piloto not in mejor_posiciones:
-                mejor_posiciones[piloto] = numero
-            elif numero < mejor_posiciones[piloto]:
-                mejor_posiciones[piloto] = numero
+            if numero > 0:  # Asegurarse de que es una posición válida
+                if piloto not in mejor_posiciones:
+                    mejor_posiciones[piloto] = numero
+                elif numero < mejor_posiciones[piloto]:  # Guardar la mejor (menor) posición
+                    mejor_posiciones[piloto] = numero
 
+    # Crear una lista para ordenar los pilotos alfabéticamente
     lista_posiciones = []
     for piloto in mejor_posiciones:
         lista_posiciones.append((piloto, mejor_posiciones[piloto]))
@@ -158,14 +160,17 @@ def calcular_mejor_posicion():
     for _ in lista_posiciones:
         tamano_lista += 1
 
+    # Ordenar manualmente por el nombre del piloto (alfabéticamente)
     for _ in range(tamano_lista):
         for j in range(tamano_lista - 1):
             if lista_posiciones[j][0] > lista_posiciones[j + 1][0]:
                 lista_posiciones[j], lista_posiciones[j + 1] = lista_posiciones[j + 1], lista_posiciones[j]
 
+    # Imprimir resultados
     print("\nMejor posición obtenida por cada piloto (orden alfabético):")
     for piloto, mejor_pos in lista_posiciones:
         print(f"{piloto}: {mejor_pos}º lugar")
+
 
 
 # Menú Principal
