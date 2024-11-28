@@ -1,0 +1,175 @@
+f1 = open("F1_2024.txt", "r")
+lineas = f1.readlines() #lee todas las lineas de un archivo y las almacena como una lista de cadenas de texto.
+puntos = [0, 25, 18, 15, 12, 10, 8, 6, 4, 2, 1] #creamos una lista con los puntos por posicion del 1 al 10. 
+#El indice 0 tiene valor 0 porque no existe una posicion 0 en las carreras
+
+def puntos_pilotos():
+    pilotos = []
+    puntuaciones = []
+    cantidad_pilotos = 0
+    
+    for i in range(1, 24): #recorre las lineas del arch desde la 2da linea, i = 1 hasta la linea 23
+        linea = lineas[i] # asigna la linea actual (en la iteracion i) de la lista lineas a la variable linea
+        nombre = linea.split() #Utiliza el split() para dividir la línea en una lista de palabras o valores, usando espacios como delimitadores por defecto.
+        piloto = nombre[0] #extrae el primer elemento de la lista nombre
+        puntos_totales = 0 #acumulador de puntos totales
+
+        for puesto in nombre[2:]: #recorre todos los elementos de la lista nombre desde el 3er elemento hasta el final. siendo nombre[0:] los nombres de pilotos, [1:] nombre del equipo, [2:] posiciones
+            try: #intenta convertir la posicion en un entero, es necesario porque puesto es un str
+                posicion = int(puesto) #si puesto es "1" en str posicion sera 1 en entero
+                if posicion <= 10: #verifica que la posicion sea menor o igual a 10
+                    puntos_totales += puntos[posicion] #si la posicion es valida se suman los ptos correspondientes
+            except ValueError: #si encuentra str o esta vacio, se produce una excepcion y omite el error
+                continue
+
+        pilotos.append(piloto) #agrega el nombre del piloto a la lista pilotos
+        puntuaciones.append(puntos_totales) #agrega las puntuaciones a la lista puntos totales de cada piloto
+        cantidad_pilotos += 1 # cuenta un piloto por cada bucle valido
+
+    for i in range(cantidad_pilotos): #recorre todos los elementos
+        for j in range(cantidad_pilotos - i - 1): #para no comparar los que ya están ordenados
+            if puntuaciones[j] < puntuaciones[j + 1]: #compara el primer elemento con el segundo
+                puntuaciones[j], puntuaciones[j + 1] = puntuaciones[j + 1], puntuaciones[j] #si el primer elemento es menor que el segundo, se intercambian
+                pilotos[j], pilotos[j + 1] = pilotos[j + 1], pilotos[j]
+    print("Listado de puntos de cada piloto:")
+    for i in range(cantidad_pilotos):
+        print(f"{pilotos[i]}: {puntuaciones[i]} puntos")
+
+
+def puntos_equipos():
+    equipos = []
+    puntuaciones = []
+    cantidad_equipos = 0 
+
+    for i in range(1, 24):
+        linea = lineas[i]
+        nombre = linea.split()
+        equipo = nombre[1]
+        puntos_totales = 0
+
+        for posicion_str in nombre[2:]:
+            try:
+                posicion = int(posicion_str)
+                if posicion <= 10:
+                    puntos_totales += puntos[posicion]
+            except ValueError:
+                continue
+
+        existe_equipo = False #rastrea si el equipo ya existe en la lista equipos. False pq asumimos que el equipo no esta registrado
+        for j in range(cantidad_equipos): 
+            if equipos[j] == equipo:
+                puntuaciones[j] += puntos_totales #sumamos el acum a la lista de puntuaciones
+                existe_equipo = True #marca que el equipo existe y rompe el bucle
+                break
+
+        if not existe_equipo: #si no existe el equipo en la lista
+            equipos.append(equipo) #lo agrega a esta
+            puntuaciones.append(puntos_totales) #y a sus puntos en la lista puntos totales
+            cantidad_equipos += 1 #y se incrementa un equipo en el contador
+
+    for i in range(cantidad_equipos): #ordenamiento de burbuja
+        for j in range(cantidad_equipos - i - 1):
+            if puntuaciones[j] < puntuaciones[j + 1]:
+                puntuaciones[j], puntuaciones[j + 1] = puntuaciones[j + 1], puntuaciones[j]
+                equipos[j], equipos[j + 1] = equipos[j + 1], equipos[j]
+
+    print("Listado de puntos de cada equipo:")
+    for i in range(cantidad_equipos):
+        print(f"{equipos[i]}: {puntuaciones[i]} puntos")
+
+
+def promedio_puntos():
+    pilotos = []
+    puntuaciones = []
+    cantidad_pilotos = 0 
+    
+   
+    for i in range(1, 24):
+        linea = lineas[i]
+        nombre = linea.split()
+        piloto = nombre[0]
+        puntos_totales = 0
+
+        for posicion_carreras in nombre[2:]:
+            try:
+                posicion = int(posicion_carreras)
+                if posicion <= 10:
+                    puntos_totales += puntos[posicion]
+            except ValueError:
+                continue
+
+        pilotos.append(piloto)
+        puntuaciones.append(puntos_totales)
+        cantidad_pilotos += 1
+        
+    print("Promedio de puntos cada piloto:")
+    for i in range(cantidad_pilotos):
+        promedio = puntuaciones[i] / 21 
+        print(f"{pilotos[i]}: {promedio:.2f} puntos")
+
+
+def mejor_posicion():
+    pilotos = []
+    mejores_posiciones = []
+    cantidad_pilotos = 0 
+
+    for i in range(1, 24):
+        linea = lineas[i]
+        nombre = linea.split()
+        piloto = nombre[0]
+        mejor_posicion = float('inf') 
+
+        for posicion_str in nombre[2:]:
+            try:
+                posicion = int(posicion_str)
+                if 1 <= posicion < mejor_posicion: #verifica que posicion se encuentre entre 1 y mejor_pos
+                    mejor_posicion = posicion #si posicion es menor que mejor posicion, mejor posicion va a ser posicion
+            except ValueError:
+                continue
+
+        pilotos.append(piloto)
+        mejores_posiciones.append(mejor_posicion)
+        cantidad_pilotos += 1
+
+    for i in range(cantidad_pilotos):
+        for j in range(cantidad_pilotos - i - 1):
+            if pilotos[j] > pilotos[j + 1]:
+                pilotos[j], pilotos[j + 1] = pilotos[j + 1], pilotos[j]
+                mejores_posiciones[j], mejores_posiciones[j + 1] = mejores_posiciones[j + 1], mejores_posiciones[j]
+
+    print("Mejor posición obtenida de cada piloto:")
+    for i in range(cantidad_pilotos):
+        print(f"{pilotos[i]}: {mejores_posiciones[i]}° puesto")
+
+
+while True:
+    print(""" MENÚ DE OPCIONES
+1. Listado con el total de puntos de cada piloto, ordenado de mayor a menor puntaje.
+2. Listado de puntos de cada equipo, ordenado de mayor a menor puntaje.
+3. Promedio de puntos de cada piloto
+4. Mejor posición obtenida por cada piloto en orden alfabético.
+0. Salir""")
+    try:
+        opcion = int(input("Elija una opción: "))
+    except ValueError:
+        print("Debes ingresar solamente números de las opciones disponibles.")
+        continue
+    if opcion == 0:
+        print("Salió correctamente.")
+        break
+    elif opcion == 1:
+        f1.seek(0)
+        puntos_pilotos()
+    elif opcion == 2:
+        f1.seek(0)
+        puntos_equipos()
+    elif opcion == 3:
+        f1.seek(0)
+        promedio_puntos()
+    elif opcion == 4:
+        f1.seek(0)
+        mejor_posicion()
+    else:
+        print("Opción incorrecta. Por favor vuelva a intentarlo.")
+
+f1.close()
