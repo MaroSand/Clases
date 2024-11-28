@@ -1,34 +1,30 @@
 f1 = open("F1_2024.txt", "r")
-
-
 lineas = f1.readlines()
 puntos = [0, 25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
-
 
 def puntos_pilotos():
     pilotos = []
     puntuaciones = []
-    cantidad_pilotos = 0  # Contador manual de pilotos
+    cantidad_pilotos = 0
     
     for i in range(1, 24):
         linea = lineas[i]
-        datos = linea.split()
-        piloto = datos[0]
-        total_puntos = 0
+        nombre = linea.split()
+        piloto = nombre[0]
+        puntos_totales = 0
 
-        for posicion_carreras in datos[2:]:
+        for puesto in nombre[2:]:
             try:
-                posicion = int(posicion_carreras)
+                posicion = int(puesto)
                 if posicion <= 10:
-                    total_puntos += puntos[posicion]
+                    puntos_totales += puntos[posicion]
             except ValueError:
                 continue
 
         pilotos.append(piloto)
-        puntuaciones.append(total_puntos)
+        puntuaciones.append(puntos_totales)
         cantidad_pilotos += 1
 
-    # Ordenamiento manual de mayor a menor
     for i in range(cantidad_pilotos):
         for j in range(cantidad_pilotos - i - 1):
             if puntuaciones[j] < puntuaciones[j + 1]:
@@ -42,36 +38,34 @@ def puntos_pilotos():
 def puntos_equipos():
     equipos = []
     puntuaciones = []
-    cantidad_equipos = 0  # Contador manual de equipos
+    cantidad_equipos = 0 
 
     for i in range(1, 24):
         linea = lineas[i]
-        datos = linea.split()
-        equipo = datos[1]
-        total_puntos = 0
+        nombre = linea.split()
+        equipo = nombre[1]
+        puntos_totales = 0
 
-        for posicion_str in datos[2:]:
+        for posicion_str in nombre[2:]:
             try:
                 posicion = int(posicion_str)
                 if posicion <= 10:
-                    total_puntos += puntos[posicion]
+                    puntos_totales += puntos[posicion]
             except ValueError:
                 continue
 
-        # Verificar si el equipo ya existe en la lista
-        encontrado = False
+        existe_equipo = False
         for j in range(cantidad_equipos):
             if equipos[j] == equipo:
-                puntuaciones[j] += total_puntos
-                encontrado = True
+                puntuaciones[j] += puntos_totales
+                existe_equipo = True
                 break
 
-        if not encontrado:
+        if not existe_equipo:
             equipos.append(equipo)
-            puntuaciones.append(total_puntos)
+            puntuaciones.append(puntos_totales)
             cantidad_equipos += 1
 
-    # Ordenamiento manual de mayor a menor
     for i in range(cantidad_equipos):
         for j in range(cantidad_equipos - i - 1):
             if puntuaciones[j] < puntuaciones[j + 1]:
@@ -86,45 +80,45 @@ def puntos_equipos():
 def promedio_puntos():
     pilotos = []
     puntuaciones = []
-    cantidad_pilotos = 0  # Contador manual de pilotos
+    cantidad_pilotos = 0 
     
    
     for i in range(1, 24):
         linea = lineas[i]
-        datos = linea.split()
-        piloto = datos[0]
-        total_puntos = 0
+        nombre = linea.split()
+        piloto = nombre[0]
+        puntos_totales = 0
 
-        for posicion_carreras in datos[2:]:
+        for posicion_carreras in nombre[2:]:
             try:
                 posicion = int(posicion_carreras)
                 if posicion <= 10:
-                    total_puntos += puntos[posicion]
+                    puntos_totales += puntos[posicion]
             except ValueError:
                 continue
 
         pilotos.append(piloto)
-        puntuaciones.append(total_puntos)
+        puntuaciones.append(puntos_totales)
         cantidad_pilotos += 1
         
     print("Promedio de puntos cada piloto:")
     for i in range(cantidad_pilotos):
-        promedio = puntuaciones[i] / 21  # Total de carreras
+        promedio = puntuaciones[i] / 21 
         print(f"{pilotos[i]}: {promedio:.2f} puntos")
 
 
 def mejor_posicion():
     pilotos = []
     mejores_posiciones = []
-    cantidad_pilotos = 0  # Contador manual de pilotos
+    cantidad_pilotos = 0 
 
     for i in range(1, 24):
         linea = lineas[i]
-        datos = linea.split()
-        piloto = datos[0]
+        nombre = linea.split()
+        piloto = nombre[0]
         mejor_posicion = float('inf')
 
-        for posicion_str in datos[2:]:
+        for posicion_str in nombre[2:]:
             try:
                 posicion = int(posicion_str)
                 if 1 <= posicion < mejor_posicion:
@@ -136,16 +130,15 @@ def mejor_posicion():
         mejores_posiciones.append(mejor_posicion)
         cantidad_pilotos += 1
 
-    # Ordenamiento alfabético
     for i in range(cantidad_pilotos):
         for j in range(cantidad_pilotos - i - 1):
             if pilotos[j] > pilotos[j + 1]:
                 pilotos[j], pilotos[j + 1] = pilotos[j + 1], pilotos[j]
                 mejores_posiciones[j], mejores_posiciones[j + 1] = mejores_posiciones[j + 1], mejores_posiciones[j]
 
-    print("Mejores posición obtenida de cada piloto:")
+    print("Mejor posición obtenida de cada piloto:")
     for i in range(cantidad_pilotos):
-        print(f"{pilotos[i]}: {mejores_posiciones[i]} posición")
+        print(f"{pilotos[i]}: {mejores_posiciones[i]}° puesto")
 
 
 while True:
