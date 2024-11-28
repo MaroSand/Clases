@@ -123,8 +123,8 @@ def calcular_promedio_piloto():
 
     print("\nPromedio de puntos por piloto:")
     for piloto in suma_puntos:
-        promedio = suma_puntos[piloto] // cantidad_carreras[piloto]
-        print(f"{piloto}: {promedio} puntos")
+        promedio = suma_puntos[piloto] / 21
+        print(f"{piloto}: {promedio:.2f} puntos")
 
 
 def calcular_mejor_posicion():
@@ -201,3 +201,4 @@ while True:
         print("Opción no válida")
 
 f1.close()
+
