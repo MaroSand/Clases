@@ -110,7 +110,7 @@ def promedio_puntos():
     print("Promedio de puntos cada piloto:")
     for i in range(cantidad_pilotos):
         promedio = puntuaciones[i] / 21  # Total de carreras
-        print(f"{pilotos[i]}: {promedio:.2f}")
+        print(f"{pilotos[i]}: {promedio:.2f} puntos")
 
 
 def mejor_posicion():
