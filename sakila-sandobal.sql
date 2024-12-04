@@ -145,10 +145,25 @@ order by 1;
 ## # 32. Media de duración de las películas de cada categoría. Debe devolver 16 resultados.
 ## # 33. Cantidad de películas de cada categoría. Debe devolver 16 resultados.
 ## # 34. Muestra el nombre y apellido de todos los actores. Debe devolver 200 resultados.
+
+  select nombre,apellidos
+  from actor
+  orden by 1;
+  
 ## # 35. Muestra el nombre y apellido de cada actor en una sola columna, en mayúscula. Nombra la columna "Nombre del actor". Debe devolver 200 resultados.
+ select concat(nombre, " ", apellidos) as "Nombre del actor"
+  from actor
+  orden by 1;
+  
 ## # 36. Muestra el ID, nombre y apellido de un actor, de quien solo tienes el nombre "John". Debe devolver 1 resultado.
 ## # 37. Listar los actores cuyo apellido contenga "GE". Debe devolver 13 resultados.
+ select apellidos from actor
+  where apellidos like "%RA%"
+  
 ## # 38. Listar los actores cuyo apellido contenga "RA". Ordena las filas por apellido y nombre (en ese orden). Debe devolver 8 resultados.
+  select apellidos,nombre from actor
+  where apellidos like "%RA%"
+  
 ## # 39. Usando la función IN, muestra el nombre y apellido de todos los clientes llamados "Kelly", "Paula" o "Alice". Debe devolver 4 resultados.
 ## # 40. Muestra el apellido y la cantidad de actores que tienen ese apellido, ordenados de mayor a menor ocurrencia. Debe devolver 121 resultados.
 ## # 41. Muestra el apellido y la cantidad de actores que tienen ese apellido, pero solo los apellidos compartidos por dos o más actores. Debe devolver 55 resultados.
