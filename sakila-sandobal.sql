@@ -84,12 +84,10 @@ select count(id_actor) as cantidad_actores
 from actor;
 
 ## # 19. ¿Cuántas ciudades tiene el pais ‘Spain’?
-select pais.nombre as pais, count(ciudad.id_pais)
+select count(id_ciudad)
 from ciudad
 join pais on ciudad.id_pais = pais.id_pais
-group by 1;
-
-#revisar para Spain
+where pais.nombre = 'Spain';
 
 ## # 20. ¿Cuántos países hay que empiezan por ‘a’?
 select count(*) as cantidad from pais
